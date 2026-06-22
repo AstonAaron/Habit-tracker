@@ -26,6 +26,8 @@ function App() {
       category,
       completed: false,
       streak: 0,
+      lastCompletedDate: null,
+      createdAt: new Date().toISOString(),
     };
 
     setHabits([...habits, habit]);
@@ -33,19 +35,26 @@ function App() {
     setCategory("Health");
   };
 
-  const toggleHabit = (id) => {
-    setHabits(
-      habits.map((habit) =>
-        habit.id === id
-          ? {
-              ...habit,
-              completed: !habit.completed,
-              streak: !habit.completed ? habit.streak + 1 : Math.max(habit.streak - 1, 0),
-            }
-          : habit
-      )
-    );
-  };
+const toggleHabit = (id) => {
+  const today = new Date().toDateString();
+
+  setHabits(
+    habits.map((habit) => {
+      if (habit.id !== id) return habit;
+
+      const isCompleting = !habit.completed;
+
+      return {
+        ...habit,
+        completed: isCompleting,
+        streak: isCompleting
+          ? habit.streak + 1
+          : Math.max(habit.streak - 1, 0),
+        lastCompletedDate: isCompleting ? today : habit.lastCompletedDate,
+      };
+    })
+  );
+};
 
   const deleteHabit = (id) => {
     setHabits(habits.filter((habit) => habit.id !== id));

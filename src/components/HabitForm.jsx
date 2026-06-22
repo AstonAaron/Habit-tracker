@@ -4,6 +4,7 @@ function HabitForm({
   category,
   setCategory,
   addHabit,
+  
 }) {
   return (
     <div className="habit-form">
@@ -27,6 +28,9 @@ function HabitForm({
       </button>
     </div>
   );
+  
 }
+
+
 
 export default HabitForm;
